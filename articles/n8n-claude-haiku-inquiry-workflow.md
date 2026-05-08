@@ -3,7 +3,7 @@ title: "Claude Haiku 4.5 + n8n で問い合わせ対応ワークフローを作�
 emoji: "📨"
 type: "tech"
 topics: ["n8n", "claude", "anthropic", "automation", "python"]
-published: false
+published: true
 ---
 
 ## はじめに
