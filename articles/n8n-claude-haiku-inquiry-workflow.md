@@ -10,7 +10,7 @@ published: false
 
 Claude API + n8n で何が作れるかの実例として、**問い合わせメール対応ワークフロー** を実装しました。10 件のテストケースで 4 軸分類すべて 100% 一致、1 件あたり約 0.5 円で運用できる構成です。
 
-![分類精度テストの実行結果](./screenshots/terminal_test_result.png)
+![分類精度テストの実行結果](https://static.zenn.studio/user-upload/0bb11ada9b6a-20260508.png)
 
 ワークフローの中身は次の 3 段構えです。
 
@@ -24,7 +24,7 @@ Claude API + n8n で何が作れるかの実例として、**問い合わせメ�
 
 10 ノード構成です。Webhook で受信 → Claude で分類 → 緊急度で 3 ルートに分岐 → 緊急度別ドラフト生成 → Slack 通知 → 呼び出し元へ JSON 返却、という流れになっています。
 
-![n8n キャンバス全景](./screenshots/workflow_canvas.png)
+![n8n キャンバス全景](https://static.zenn.studio/user-upload/7c3988e633b3-20260508.png)
 
 入口の Webhook は `POST /webhook/sample01` で、JSON ボディ(`sender_name` / `sender_email` / `subject` / `body`)を受けます。出口は Slack 通知に加えて、呼び出し元にも分類結果 + ドラフトを返す二重出力にしておくと、別システムから呼び出すときに使い回しやすくなります。
 
@@ -54,9 +54,9 @@ Claude API + n8n で何が作れるかの実例として、**問い合わせメ�
 
 主役のプロンプトです。System に 4 軸の enum を完全列挙し、JSON 出力を強制します。
 
-![分類ノードのプロンプト前半](./screenshots/node_classify_json_part1.png)
+![分類ノードのプロンプト前半](https://static.zenn.studio/user-upload/9e3b0fe7b4a3-20260508.png)
 
-![分類ノードのプロンプト後半](./screenshots/node_classify_json_part2.png)
+![分類ノードのプロンプト後半](https://static.zenn.studio/user-upload/7c9ec4c8fec6-20260508.png)
 
 System プロンプトを抜粋します(完全版は [リポジトリの classify.md](https://github.com/aiflowlab/n8n-claude-samples/blob/main/samples/sample01/prompts/classify.md))。
 
@@ -107,7 +107,7 @@ payload = {
 
 分類結果の `urgency` を見て、後段のドラフト生成ノードを高 / 中 / 低の 3 ルートに振り分けます。
 
-![Switch ノードの 3 ルール](./screenshots/node_switch_urgency.png)
+![Switch ノードの 3 ルール](https://static.zenn.studio/user-upload/00f23417f96d-20260508.png)
 
 Rules モードで `{{ $json.classification.urgency }}` を文字列等価で比較し、Output Name を「高」「中」「低」に命名します。各 Output に Draft Urgent / Normal / Simple の 3 ノードを接続するだけで、後続のドラフト生成ノードは「自分の役割の入力」だけを受け取る設計になります。
 
@@ -131,7 +131,7 @@ Rules モードで `{{ $json.classification.urgency }}` を文字列等価で比
 
 Slack 投稿は Code ノードで mrkdwn を組み立てます。緊急度別の絵文字(`:red_circle:` / `:large_yellow_circle:` / `:large_green_circle:`)を冒頭に付け、元メッセージとドラフトを並べて投稿します。
 
-![Slack 通知の 3 色並び](./screenshots/slack_three_colors.png)
+![Slack 通知の 3 色並び](https://static.zenn.studio/user-upload/a1ec2d9dab43-20260508.png)
 
 絵文字は実運用でも効きます。チャンネルを開いた瞬間に「赤丸が並んでる = 急ぎ案件溜まってる」が一目で分かるので、トリアージのコストがほぼゼロになります。
 
@@ -156,7 +156,7 @@ Slack 投稿は Code ノードで mrkdwn を組み立てます。緊急度別の
 
 混在ケースは特に印象的だったので、Slack 出力の実例を載せておきます。
 
-![苦情 + 見積依頼の混在ケース](./screenshots/slack_mixed_intent_detail.png)
+![苦情 + 見積依頼の混在ケース](https://static.zenn.studio/user-upload/fb9a6a3abf64-20260508.png)
 
 「先月納品物の誤字を指摘 + 来期分の見積依頼」の 1 通を、ドラフト側で **謝罪 + 見積を翌日午前中に送る** という 2 アクションに展開してくれました。人間オペレータが急いでさばくと前半の苦情だけに反応して見積依頼を見落としやすいパターンなので、ここを LLM で拾えるのは実用上のメリットが大きいです。
 
