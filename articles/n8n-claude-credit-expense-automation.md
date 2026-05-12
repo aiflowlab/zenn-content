@@ -3,7 +3,7 @@ title: "Claude Haiku 4.5 + n8n でクレカ明細メールを自動経費記録�
 emoji: "🧾"
 type: "tech"
 topics: ["n8n", "claude", "anthropic", "automation", "accounting"]
-published: false
+published: true
 ---
 
 ## はじめに
