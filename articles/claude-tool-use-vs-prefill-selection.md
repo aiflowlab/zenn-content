@@ -3,7 +3,7 @@ title: "Claude API の Tool Use と prefill、どう使い分ける? 判断チ�
 emoji: "⚖️"
 type: "tech"
 topics: ["claude", "anthropic", "toolcalling", "promptengineering", "n8n"]
-published: false
+published: true
 ---
 
 ## はじめに
