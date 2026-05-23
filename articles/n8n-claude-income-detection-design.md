@@ -3,7 +3,7 @@ title: "Lancers + SMBC の入金検知を Claude API + n8n で組む — 落と�
 emoji: "💰"
 type: "tech"
 topics: ["n8n", "claude", "anthropic", "automation", "accounting"]
-published: false
+published: true
 ---
 
 ## はじめに
